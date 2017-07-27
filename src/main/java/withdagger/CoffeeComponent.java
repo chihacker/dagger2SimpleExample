@@ -10,5 +10,11 @@ import dagger.Component;
 //
 @Component(modules = CoffeeMakerModule.class)
 public interface CoffeeComponent {
+
+    //provision method
     CoffeeMaker make();
+
+    //member-injection method
+    void inject(CoffeeMaker coffeeMaker);
+
 }

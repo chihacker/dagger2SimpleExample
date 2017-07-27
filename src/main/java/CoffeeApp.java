@@ -39,7 +39,13 @@ public class CoffeeApp {
         //위의 DI 과정을 어노테이션을 활용하여 쉽게 할 수 있도록 도와준다.
         //간단한 이번 예시 뿐만 아니라 복잡한 구조에서도 간결하게 DI를 할 수 있도록 도와준다.
         {
+            //provision method
             DaggerCoffeeComponent.create().make().brew();
+
+            //member-injection method
+            withdagger.CoffeeMaker coffeeMaker = new withdagger.CoffeeMaker();
+            DaggerCoffeeComponent.create().inject(coffeeMaker);
+            coffeeMaker.brew();
         }
 
     }

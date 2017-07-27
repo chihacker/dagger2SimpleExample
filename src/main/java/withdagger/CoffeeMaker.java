@@ -7,8 +7,10 @@ import javax.inject.Inject;
  */
 
 public class CoffeeMaker {
-    public Heater heater;
-    public Pump pump;
+    @Inject Heater heater;
+    @Inject Pump pump;
+
+    public CoffeeMaker(){}
 
     @Inject
     public CoffeeMaker(Heater heater, Pump pump){
