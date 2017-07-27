@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_disample_test" default="compile.module.disample_test">
+  <dirname property="module.disample_test.basedir" file="${ant.file.module_disample_test}"/>
+  
+  <property name="module.jdk.home.disample_test" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.disample_test" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.disample_test" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.disample_test" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="disample_test.output.dir" value="undefined"/>
+  <property name="disample_test.testoutput.dir" value="${module.disample_test.basedir}/../../out/test/classes"/>
+  
+  <path id="disample_test.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="disample_test.module.production.classpath">
+    <path refid="${module.jdk.classpath.disample_test}"/>
+    <pathelement location="${disample_main.output.dir}"/>
+    <path refid="library.gradle:_com.google.dagger:dagger:2.10.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_javax.inject:javax.inject:1.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="disample_test.runtime.production.module.classpath">
+    <path refid="disample_main.runtime.production.module.classpath"/>
+    <path refid="library.gradle:_com.google.dagger:dagger:2.10.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_javax.inject:javax.inject:1.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="disample_test.module.classpath">
+    <path refid="${module.jdk.classpath.disample_test}"/>
+    <pathelement location="${disample_main.output.dir}"/>
+    <path refid="library.gradle:_com.google.dagger:dagger:2.10.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_javax.inject:javax.inject:1.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="disample_test.runtime.module.classpath">
+    <pathelement location="${disample_test.testoutput.dir}"/>
+    <path refid="disample_main.runtime.module.classpath"/>
+    <path refid="library.gradle:_com.google.dagger:dagger:2.10.classpath"/>
+    <path refid="library.gradle:_junit:junit:4.12.classpath"/>
+    <path refid="library.gradle:_javax.inject:javax.inject:1.classpath"/>
+    <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.disample_test">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.disample_test">
+    <patternset refid="excluded.from.module.disample_test"/>
+  </patternset>
+  
+  <path id="disample_test.module.test.sourcepath">
+    <dirset dir="${module.disample_test.basedir}/../../build/generated/source/apt">
+      <include name="test"/>
+    </dirset>
+    <dirset dir="${module.disample_test.basedir}/../../src/test">
+      <include name="java"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.disample_test" depends="compile.module.disample_test.production,compile.module.disample_test.tests" description="Compile module disample_test"/>
+  
+  <target name="compile.module.disample_test.production" depends="register.custom.compilers,compile.module.disample_main" description="Compile module disample_test; production classes"/>
+  
+  <target name="compile.module.disample_test.tests" depends="register.custom.compilers,compile.module.disample_test.production" description="compile module disample_test; test classes" unless="skip.tests">
+    <mkdir dir="${disample_test.testoutput.dir}"/>
+    <javac2 destdir="${disample_test.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.disample_test}/javac">
+      <compilerarg line="${compiler.args.disample_test}"/>
+      <bootclasspath refid="disample_test.module.bootclasspath"/>
+      <classpath refid="disample_test.module.classpath"/>
+      <src refid="disample_test.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.disample_test"/>
+    </javac2>
+    
+    <copy todir="${disample_test.testoutput.dir}">
+      <fileset dir="${module.disample_test.basedir}/../../build/generated/source/apt/test">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.disample_test.basedir}/../../src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.disample_test.basedir}/../../src/test/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.disample_test" description="cleanup module">
+    <delete dir="${disample_test.output.dir}"/>
+    <delete dir="${disample_test.testoutput.dir}"/>
+  </target>
+</project>
